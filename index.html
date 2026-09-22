@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddhi Chudasama | Android Developer &amp; UI/UX Designer</title>
+<meta name="description" content="Portfolio of Siddhi Chudasama — Android Developer, UI/UX Designer &amp; Cybersecurity Researcher building secure, scalable mobile applications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ================================================================
+   GLOBAL RESET & VARIABLES
+================================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  /* Gold Palette */
+  --gold:        #c9921a;
+  --gold-lt:     #e8b84b;
+  --gold-br:     #f5d06e;
+  --gold-pale:   #fce9a8;
+  --gold-deep:   #7a5010;
+  --gold-shine:  #ffd700;
+
+  /* Glow */
+  --glow-a:  rgba(201, 146, 26, 0.18);
+  --glow-b:  rgba(245, 208, 110, 0.10);
+
+  /* Backgrounds */
+  --bg:   #07060f;
+  --bg-1: #0d0b1a;
+  --bg-2: #13112a;
+
+  /* Text */
+  --txt:  #f4edda;
+  --mut:  #7a7060;
+  --dim:  #3e3620;
+
+  /* Borders */
+  --b0: rgba(201, 146, 26, 0.13);
+  --b1: rgba(201, 146, 26, 0.33);
+  --b2: rgba(201, 146, 26, 0.70);
+
+  /* Fonts */
+  --CG: 'Cormorant Garamond', Georgia, serif;
+  --SM: 'Space Mono', monospace;
+  --IN: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--IN);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold), var(--gold-deep));
+  border-radius: 2px;
+}
+
+a { text-decoration: none; color: inherit; }
+section { position: relative; z-index: 1; }
+
+/* ================================================================
+   GRID BACKGROUND
+================================================================ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(201,146,26,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,146,26,0.04) 1px, transparent 1px);
+  background-size: 55px 55px;
+}
+
+/* ================================================================
+   LOADER — same as reference: logo + text + bar
+================================================================ */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.4rem;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.loader-logo {
+  font-family: var(--CG); font-size: 6rem; font-weight: 700; font-style: italic;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold), var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: loader-pulse 1.5s ease-in-out infinite;
+}
+@keyframes loader-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(201,146,26,0.3)); }
+  50%       { filter: drop-shadow(0 0 40px rgba(245,208,110,0.9)); }
+}
+.loader-text {
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-lt);
+}
+.loader-bar-wrap {
+  width: 200px; height: 2px;
+  background: rgba(201,146,26,0.12); border-radius: 1px; overflow: hidden;
+}
+.loader-bar {
+  height: 100%; width: 0%; border-radius: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt), var(--gold-br), var(--gold-pale));
+  box-shadow: 0 0 10px rgba(201,146,26,0.5);
+  animation: loader-fill 2s ease forwards;
+}
+@keyframes loader-fill { to { width: 100%; } }
+
+/* ================================================================
+   TICKER — reference has kanji + text rolling strip
+================================================================ */
+.ticker {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  height: 28px; overflow: hidden;
+  background: rgba(7,6,15,0.97);
+  border-bottom: 1px solid var(--b0);
+  display: flex; align-items: center;
+}
+.ticker-track {
+  display: flex; gap: 2.5rem;
+  white-space: nowrap;
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker-track span {
+  font-family: var(--SM); font-size: 0.58rem;
+  letter-spacing: 0.24em; opacity: 0.9;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ================================================================
+   NAV — reference format: RB · RISHAB  →  SC · SIDDHI
+================================================================ */
+nav {
+  position: fixed; top: 28px; left: 0; right: 0; z-index: 100;
+  padding: 0.9rem 3.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(7,6,15,0.82); backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--b0);
+  transition: all 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(7,6,15,0.98);
+  box-shadow: 0 2px 30px rgba(201,146,26,0.07);
+}
+
+.nav-brand { display: flex; align-items: center; gap: 0.8rem; }
+.nav-logo-box {
+  width: 40px; height: 40px;
+  border: 1px solid var(--gold); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(201,146,26,0.07); position: relative;
+  box-shadow: 0 0 14px rgba(201,146,26,0.16);
+}
+.nav-logo-box::after {
+  content: ''; position: absolute; inset: -3px;
+  border: 1px solid rgba(201,146,26,0.18); border-radius: 3px;
+}
+.nav-logo-letters {
+  font-family: var(--CG); font-size: 1.1rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.nav-name {
+  font-family: var(--CG); font-size: 1rem; font-weight: 600;
+  letter-spacing: 0.14em; color: var(--mut);
+}
+.nav-name em {
+  font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.nav-links { display: flex; gap: 0.1rem; list-style: none; }
+.nav-links a {
+  font-family: var(--SM); font-size: 0.59rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mut); padding: 0.38rem 0.72rem;
+  border: 1px solid transparent; border-radius: 2px;
+  transition: all 0.22s ease;
+}
+.nav-links a:hover {
+  border-color: var(--b1); color: var(--gold-pale);
+  background: rgba(201,146,26,0.06);
+}
+
+/* ================================================================
+   SECTION HELPERS
+================================================================ */
+.wrap { max-width: 1260px; margin: 0 auto; padding: 7rem 3.5rem; }
+
+/* "// professional profile" label */
+.s-label {
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0.55rem;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.s-label::before { content: '//'; color: var(--dim); -webkit-text-fill-color: var(--dim); }
+
+/* Big section heading — huge Cormorant Garamond italic */
+.s-title {
+  font-family: var(--CG);
+  font-size: clamp(3rem, 5.5vw, 5rem);
+  font-weight: 700; font-style: italic;
+  letter-spacing: 0.02em; margin-bottom: 3.5rem; line-height: 1;
+  background: linear-gradient(135deg, var(--txt) 0%, var(--gold-pale) 40%, var(--gold-lt) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 25px rgba(201,146,26,0.22));
+}
+
+/* Sub-heading used inside sections */
+.s-subhead {
+  font-family: var(--CG); font-size: 1.4rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.9rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--b0); margin-top: 2.2rem;
+  filter: drop-shadow(0 0 7px rgba(201,146,26,0.22));
+}
+.s-subhead:first-child { margin-top: 0; }
+
+/* Body paragraph */
+.s-para {
+  font-family: var(--IN); font-size: 1rem; line-height: 1.9;
+  color: var(--mut); margin-bottom: 1rem;
+}
+.s-para strong { color: var(--txt); }
+
+/* Highlight box — left gold border */
+.s-box {
+  border: 1px solid var(--b0); border-left: 2px solid var(--gold);
+  background: rgba(201,146,26,0.03);
+  padding: 1.1rem 1.4rem; border-radius: 2px; margin-bottom: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.s-box:hover { border-color: var(--b1); box-shadow: 0 0 20px rgba(201,146,26,0.07); }
+.s-box h4 {
+  font-family: var(--CG); font-size: 1.05rem; font-weight: 600; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.45rem;
+}
+.s-box p { font-family: var(--IN); font-size: 0.94rem; line-height: 1.75; color: var(--mut); }
+.s-box p strong { color: var(--txt); }
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ================================================================
+   HERO
+================================================================ */
+#hero {
+  min-height: 100vh;
+  padding-top: calc(28px + 68px);
+  display: flex; align-items: center;
+  overflow: hidden;
+}
+.hero-glow-1 {
+  position: absolute; width: 800px; height: 800px; border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-a), transparent 60%);
+  top: -250px; right: -150px; pointer-events: none;
+}
+.hero-glow-2 {
+  position: absolute; width: 550px; height: 550px; border-radius: 50%;
+  background: radial-gradient(circle, var(--glow-b), transparent 65%);
+  bottom: -120px; left: -60px; pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1260px; margin: 0 auto;
+  padding: 2.5rem 3.5rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem; align-items: center;
+}
+
+/* BADGE — same as "⚡ Microsoft Certified · Azure AI Engineer" */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--SM); font-size: 0.62rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  border: 1px solid var(--b1); padding: 0.32rem 0.95rem; border-radius: 2px;
+  background: rgba(201,146,26,0.06); margin-bottom: 1.6rem;
+  box-shadow: 0 0 14px rgba(201,146,26,0.10);
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  box-shadow: 0 0 7px rgba(232,184,75,0.7);
+  animation: badge-pulse 1.5s ease-in-out infinite;
+}
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.5); }
+}
+.hero-badge-text {
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* GIANT NAME — same as reference "Rishabsingh / Bhadoriya" */
+.hero-name {
+  font-family: var(--CG);
+  letter-spacing: -0.01em; margin-bottom: 0.9rem; line-height: 0.86;
+}
+.hero-name-fill {
+  display: block;
+  font-size: clamp(5.5rem, 11vw, 10.5rem);
+  font-weight: 700; font-style: italic;
+  background: linear-gradient(135deg, #fffadc 0%, var(--gold-pale) 25%, var(--gold-lt) 60%, var(--gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 55px rgba(201,146,26,0.5));
+}
+.hero-name-stroke {
+  display: block;
+  font-size: clamp(5.5rem, 11vw, 10.5rem);
+  font-weight: 700; font-style: italic;
+  color: transparent; -webkit-text-stroke: 1.5px var(--gold);
+  filter: drop-shadow(0 0 28px rgba(201,146,26,0.42));
+}
+
+/* ROLE — "QA Automation Engineer" */
+.hero-role {
+  font-family: var(--SM); font-size: 0.72rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.8rem;
+  background: linear-gradient(90deg, var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-role::before {
+  content: ''; display: inline-block; width: 36px; height: 1px;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  box-shadow: 0 0 5px rgba(201,146,26,0.5); flex-shrink: 0;
+}
+
+/* Typed text */
+.hero-typed-wrap {
+  font-family: var(--CG); font-size: 1.2rem; font-style: italic;
+  color: var(--mut); margin-bottom: 1.3rem; min-height: 2rem;
+}
+.typed-cursor {
+  display: inline-block; width: 2px; height: 0.95em;
+  vertical-align: middle; margin-left: 2px;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold));
+  box-shadow: 0 0 5px rgba(201,146,26,0.5);
+  animation: cursor-blink 0.9s step-end infinite;
+}
+@keyframes cursor-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* Description */
+.hero-desc {
+  font-family: var(--IN); font-size: 1.05rem; line-height: 1.88;
+  color: var(--mut); max-width: 540px; margin-bottom: 1.5rem;
+}
+
+/* Mission line — "► Building quality-first..." */
+.hero-mission {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  padding: 0.88rem 1.1rem;
+  border-left: 2px solid var(--gold);
+  background: rgba(201,146,26,0.04);
+  margin-bottom: 2.5rem;
+}
+.hero-mission-arrow {
+  font-size: 0.82rem; flex-shrink: 0; margin-top: 0.05rem;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-mission-text {
+  font-family: var(--SM); font-size: 0.68rem;
+  letter-spacing: 0.08em; line-height: 1.78;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* Buttons */
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn {
+  font-family: var(--SM); font-size: 0.68rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.9rem 2rem; border-radius: 2px;
+  cursor: pointer; transition: all 0.28s ease;
+  border: none; display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold), var(--gold-deep));
+  color: #07060f; font-weight: 700;
+  box-shadow: 0 0 25px rgba(201,146,26,0.28);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(201,146,26,0.5);
+  filter: brightness(1.12);
+}
+.btn-secondary {
+  background: transparent; color: var(--gold-br);
+  border: 1px solid var(--gold);
+}
+.btn-secondary:hover {
+  background: rgba(201,146,26,0.08);
+  box-shadow: 0 0 22px rgba(201,146,26,0.25);
+  color: var(--gold-pale);
+}
+
+/* Stats */
+.hero-stats {
+  display: flex; gap: 2.8rem;
+  border-top: 1px solid var(--b0); padding-top: 2rem;
+}
+.stat-number {
+  font-family: var(--CG); font-size: 3.4rem; font-weight: 700; font-style: italic;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(201,146,26,0.4));
+}
+.stat-label {
+  font-family: var(--SM); font-size: 0.57rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mut); margin-top: 0.22rem;
+}
+
+/* Kanji grid — same as reference */
+.hero-kanji {
+  margin-top: 1.8rem;
+  font-family: var(--SM); font-size: 0.58rem;
+  letter-spacing: 0.2em; line-height: 1.9;
+  color: rgba(201,146,26,0.18);
+  user-select: none;
+}
+
+/* ================================================================
+   ABOUT
+================================================================ */
+#about { background: var(--bg-1); border-top: 1px solid var(--b0); border-bottom: 1px solid var(--b0); }
+
+.about-grid {
+  display: grid; grid-template-columns: 300px 1fr;
+  gap: 5rem; align-items: start;
+}
+.about-left { position: sticky; top: 7.5rem; }
+
+.about-name {
+  font-family: var(--CG); font-size: 1.75rem; font-weight: 700; font-style: italic;
+  margin-bottom: 0.22rem;
+  background: linear-gradient(135deg, var(--txt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.about-role {
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.14em; margin-bottom: 1.8rem;
+  background: linear-gradient(90deg, var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.info-table { list-style: none; }
+.info-table li {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  padding: 0.62rem 0; border-bottom: 1px solid var(--b0);
+  font-family: var(--IN); font-size: 0.88rem;
+}
+.info-key {
+  width: 95px; flex-shrink: 0;
+  font-family: var(--SM); font-size: 0.57rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); padding-top: 0.12rem;
+}
+.info-val { color: var(--txt); }
+
+/* Skill bars */
+.skill-bars { margin-top: 2.2rem; }
+.skill-bar-item { margin-bottom: 1.2rem; }
+.skill-bar-header {
+  display: flex; justify-content: space-between;
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.08em; color: var(--mut); margin-bottom: 0.42rem;
+}
+.skill-bar-track {
+  height: 2px; background: rgba(201,146,26,0.1);
+  border-radius: 1px; overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%; width: 0%; border-radius: 1px;
+  transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold), var(--gold-br));
+  box-shadow: 0 0 8px rgba(201,146,26,0.45);
+}
+
+/* ================================================================
+   SKILLS GRID — 6 cards same as reference
+================================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.4rem;
+}
+.skill-card {
+  background: var(--bg-1); border: 1px solid var(--b0);
+  padding: 1.8rem; border-radius: 2px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.32s ease, transform 0.32s ease, box-shadow 0.32s ease;
+}
+.skill-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-lt), var(--gold), var(--gold-br), transparent);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.skill-card:hover { border-color: var(--b2); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(201,146,26,0.09); }
+.skill-card:hover::before { opacity: 1; }
+
+.skill-card-icon {
+  font-size: 1.75rem; display: block; margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(201,146,26,0.55));
+}
+.skill-card-title {
+  font-family: var(--CG); font-size: 1.15rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.42rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(201,146,26,0.22);
+  filter: drop-shadow(0 0 5px rgba(201,146,26,0.35));
+}
+.skill-card-desc {
+  font-family: var(--IN); font-size: 0.84rem;
+  color: #c8a860; margin-bottom: 0.9rem; line-height: 1.6;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.skill-tag {
+  font-family: var(--SM); font-size: 0.62rem;
+  letter-spacing: 0.05em; font-weight: 700;
+  color: #f0d890; border: 1px solid rgba(201,146,26,0.38);
+  padding: 0.26rem 0.65rem; border-radius: 2px;
+  background: rgba(201,146,26,0.09);
+  transition: all 0.22s ease;
+}
+.skill-tag:hover {
+  border-color: var(--gold-lt); color: #fff;
+  background: rgba(201,146,26,0.2); box-shadow: 0 0 10px rgba(201,146,26,0.28);
+}
+
+/* ================================================================
+   EXPERIENCE TIMELINE — same as reference
+================================================================ */
+#experience { background: var(--bg-1); border-top: 1px solid var(--b0); border-bottom: 1px solid var(--b0); }
+
+.timeline { position: relative; padding-left: 2.5rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold), transparent);
+}
+.timeline-item { position: relative; padding: 0 0 3.5rem 2.2rem; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -2.7rem; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--gold); background: var(--bg);
+  box-shadow: 0 0 14px rgba(201,146,26,0.55);
+}
+
+.tl-date {
+  font-family: var(--SM); font-size: 0.58rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.45rem;
+}
+.tl-badge {
+  display: inline-block;
+  font-family: var(--SM); font-size: 0.57rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-br); border: 1px solid rgba(201,146,26,0.28);
+  background: rgba(201,146,26,0.07);
+  padding: 0.18rem 0.65rem; border-radius: 2px; margin-bottom: 0.65rem;
+}
+.tl-role {
+  font-family: var(--CG); font-size: 2rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(135deg, var(--txt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.22rem;
+}
+.tl-org {
+  font-family: var(--IN); font-size: 0.82rem;
+  color: var(--gold-br); margin-bottom: 1.2rem;
+}
+.tl-card {
+  background: var(--bg-2); border: 1px solid var(--b0);
+  padding: 1.6rem; border-radius: 2px;
+}
+.tl-list { list-style: none; }
+.tl-list li {
+  font-family: var(--IN); font-size: 0.95rem; line-height: 1.85;
+  color: #b09060;
+  padding: 0.32rem 0 0.32rem 1.4rem;
+  position: relative; border-bottom: 1px solid rgba(201,146,26,0.04);
+}
+.tl-list li:last-child { border-bottom: none; }
+.tl-list li::before {
+  content: '▸'; position: absolute; left: 0; top: 0.46rem; font-size: 0.72rem;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.tl-list li strong { color: var(--txt); }
+
+/* ================================================================
+   PROJECTS GRID — same card structure as reference
+================================================================ */
+#projects { background: var(--bg-1); border-top: 1px solid var(--b0); border-bottom: 1px solid var(--b0); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.5rem;
+}
+.project-card {
+  background: var(--bg-2); border: 1px solid var(--b0); border-radius: 2px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: border-color 0.32s ease, transform 0.32s ease, box-shadow 0.32s ease;
+}
+.project-card:hover { border-color: var(--b2); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(201,146,26,0.09); }
+.project-card:hover .project-bar { width: 100%; }
+
+.project-bar {
+  height: 1px; width: 0%; transition: width 0.45s ease;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold), var(--gold-br), var(--gold-pale));
+  box-shadow: 0 0 6px rgba(201,146,26,0.4);
+}
+.project-body { padding: 1.8rem 1.8rem 0; flex: 1; }
+.project-num {
+  font-family: var(--SM); font-size: 0.54rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 0.7rem;
+}
+.project-status-active {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--SM); font-size: 0.53rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-br); background: rgba(201,146,26,0.08);
+  border: 1px solid rgba(201,146,26,0.22);
+  padding: 0.2rem 0.62rem; border-radius: 2px; margin-bottom: 0.9rem;
+}
+.project-status-done {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-family: var(--SM); font-size: 0.53rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-pale); background: rgba(252,233,168,0.08);
+  border: 1px solid rgba(252,233,168,0.22);
+  padding: 0.2rem 0.62rem; border-radius: 2px; margin-bottom: 0.9rem;
+}
+.status-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  animation: badge-pulse 1.5s infinite;
+}
+.project-title {
+  font-family: var(--CG); font-size: 1.7rem; font-weight: 700; font-style: italic;
+  line-height: 1.1; margin-bottom: 0.28rem;
+  background: linear-gradient(135deg, var(--txt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.project-subtitle {
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  background: linear-gradient(90deg, var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.9rem;
+}
+.project-desc {
+  font-family: var(--IN); font-size: 0.93rem; line-height: 1.85;
+  color: #b09060; margin-bottom: 1.1rem;
+}
+.project-techs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1.3rem; }
+.project-tech {
+  font-family: var(--SM); font-size: 0.57rem; letter-spacing: 0.06em;
+  color: var(--gold-br); background: rgba(201,146,26,0.07);
+  border: 1px solid rgba(201,146,26,0.2);
+  padding: 0.18rem 0.52rem; border-radius: 2px;
+}
+.project-footer {
+  border-top: 1px solid var(--b0);
+  padding: 0.9rem 1.8rem; display: flex; gap: 1.5rem;
+}
+.project-stat-num {
+  font-family: var(--CG); font-size: 1.6rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.project-stat-label {
+  font-family: var(--SM); font-size: 0.53rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); margin-top: 0.1rem;
+}
+
+/* ================================================================
+   EDUCATION
+================================================================ */
+.education-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.edu-card {
+  background: var(--bg-1); border: 1px solid var(--b0); border-radius: 2px;
+  padding: 2.2rem; position: relative; overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.edu-card:hover { border-color: var(--b2); box-shadow: 0 0 50px rgba(201,146,26,0.07); }
+.edu-card::after {
+  content: attr(data-abbr); position: absolute; bottom: -1.5rem; right: 1.2rem;
+  font-family: var(--CG); font-size: 7.5rem; font-weight: 700; font-style: italic;
+  color: rgba(201,146,26,0.04); line-height: 1;
+  pointer-events: none; user-select: none;
+}
+.edu-icon { font-size: 2rem; display: block; margin-bottom: 1rem; filter: drop-shadow(0 0 8px rgba(201,146,26,0.4)); }
+.edu-degree {
+  font-family: var(--CG); font-size: 1.45rem; font-weight: 700; font-style: italic;
+  margin-bottom: 0.28rem;
+  background: linear-gradient(135deg, var(--txt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.edu-institution {
+  font-family: var(--IN); font-size: 0.8rem;
+  background: linear-gradient(90deg, var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.22rem;
+}
+.edu-location { font-family: var(--SM); font-size: 0.62rem; color: var(--dim); margin-bottom: 1.1rem; }
+.edu-badge {
+  display: inline-block; font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.2rem 0.65rem; border-radius: 2px; margin-bottom: 1.1rem;
+}
+.edu-badge-progress { background: rgba(201,146,26,0.09); color: var(--gold-br); border: 1px solid rgba(201,146,26,0.28); }
+.edu-badge-done     { background: rgba(252,233,168,0.08); color: var(--gold-pale); border: 1px solid rgba(252,233,168,0.25); }
+.edu-gpa-row { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 1rem; }
+.edu-gpa-num {
+  font-family: var(--CG); font-size: 2.9rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(201,146,26,0.32));
+}
+.edu-gpa-unit { font-family: var(--SM); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mut); }
+.edu-project-box {
+  background: rgba(0,0,0,0.3); border: 1px solid var(--b0);
+  padding: 0.9rem 1rem; border-radius: 2px;
+}
+.edu-project-box strong {
+  display: block; font-family: var(--CG); font-size: 0.88rem; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-br), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 0.3rem;
+}
+.edu-project-box span { font-family: var(--IN); font-size: 0.87rem; line-height: 1.62; color: #b09060; }
+
+/* ================================================================
+   CERTIFICATIONS — 3 grouped sections
+================================================================ */
+#certifications { background: var(--bg-1); border-top: 1px solid var(--b0); border-bottom: 1px solid var(--b0); }
+
+.cert-group { margin-bottom: 4rem; }
+.cert-group:last-child { margin-bottom: 0; }
+
+.cert-group-heading {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+.cert-group-diamond {
+  font-family: var(--CG); font-size: 1.1rem; font-style: italic;
+  color: var(--gold); filter: drop-shadow(0 0 6px rgba(201,146,26,0.5));
+}
+.cert-group-title {
+  font-family: var(--CG); font-size: 1.7rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(201,146,26,0.2));
+}
+.cert-group-sub {
+  font-family: var(--SM); font-size: 0.58rem;
+  letter-spacing: 0.15em; color: var(--mut);
+  margin-bottom: 1.5rem; margin-top: -1rem;
+  padding-left: 1.85rem;
+}
+
+.cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.cert-card {
+  background: var(--bg-2); border: 1px solid var(--b0); border-radius: 2px;
+  padding: 1.5rem; display: flex; flex-direction: column; gap: 0.7rem;
+  transition: all 0.28s ease; position: relative; overflow: hidden;
+}
+.cert-card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold), var(--gold-br));
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.cert-card:hover { border-color: var(--b2); background: rgba(201,146,26,0.04); box-shadow: 0 10px 30px rgba(201,146,26,0.07); }
+.cert-card:hover::before { opacity: 1; }
+
+.cert-icon-box {
+  width: 42px; height: 42px; border: 1px solid var(--b1); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  background: rgba(201,146,26,0.07);
+}
+.cert-name {
+  font-family: var(--CG); font-size: 1.05rem; font-weight: 700; font-style: italic;
+  line-height: 1.3;
+  background: linear-gradient(135deg, var(--txt), var(--gold-pale));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.cert-issuer-name {
+  font-family: var(--SM); font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-br); margin-bottom: 0.1rem;
+}
+.cert-issuer-sub { font-family: var(--SM); font-size: 0.55rem; letter-spacing: 0.08em; color: var(--dim); }
+
+/* ================================================================
+   CONTACT
+================================================================ */
+#contact { background: var(--bg-1); border-top: 1px solid var(--b0); position: relative; overflow: hidden; }
+.contact-glow {
+  position: absolute; width: 900px; height: 450px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(201,146,26,0.08), transparent 65%);
+  top: -100px; left: 50%; transform: translateX(-50%);
+}
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5.5rem; align-items: start; }
+
+.contact-desc { font-family: var(--IN); font-size: 1rem; line-height: 1.9; color: var(--mut); margin-bottom: 2.5rem; }
+.contact-links-list { list-style: none; }
+.contact-link {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.85rem 1rem; border: 1px solid var(--b0); border-radius: 2px;
+  margin-bottom: 0.7rem; cursor: pointer;
+  transition: all 0.28s ease; background: var(--bg-2);
+}
+.contact-link:hover { border-color: var(--b2); background: rgba(201,146,26,0.05); box-shadow: 0 5px 25px rgba(201,146,26,0.08); }
+.contact-link-icon {
+  width: 38px; height: 38px; border: 1px solid var(--b1); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+  flex-shrink: 0; background: rgba(201,146,26,0.07);
+}
+.contact-link-text { font-family: var(--IN); font-size: 0.8rem; color: var(--mut); transition: color 0.2s; }
+.contact-link:hover .contact-link-text { color: var(--gold-pale); }
+
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 0.95rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.95rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-label {
+  font-family: var(--SM); font-size: 0.57rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim);
+}
+.form-input, .form-textarea {
+  background: var(--bg-2); border: 1px solid var(--b0);
+  color: var(--txt); font-family: var(--IN); font-size: 0.88rem;
+  padding: 0.7rem 0.95rem; border-radius: 2px;
+  outline: none; transition: all 0.25s ease; width: 100%;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,146,26,0.1);
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--dim); }
+.form-textarea { resize: vertical; min-height: 135px; }
+
+.form-submit {
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold), var(--gold-deep));
+  color: #07060f; border: none;
+  font-family: var(--SM); font-size: 0.7rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 0.95rem; border-radius: 2px;
+  cursor: pointer; font-weight: 700;
+  transition: all 0.28s ease; box-shadow: 0 4px 20px rgba(201,146,26,0.22);
+}
+.form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(201,146,26,0.4); filter: brightness(1.1); }
+.form-success {
+  display: none; text-align: center; padding: 0.9rem;
+  background: rgba(201,146,26,0.08); border: 1px solid rgba(201,146,26,0.28);
+  color: var(--gold-pale); font-family: var(--SM); font-size: 0.7rem;
+  letter-spacing: 0.1em; border-radius: 2px;
+}
+
+/* ================================================================
+   FOOTER
+================================================================ */
+footer {
+  background: var(--bg); border-top: 1px solid var(--b0);
+  padding: 2rem 3.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+}
+.footer-name {
+  font-family: var(--CG); font-size: 1.15rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold), var(--gold-br));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: var(--SM); font-size: 0.6rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--mut); transition: color 0.2s ease;
+}
+.footer-links a:hover { color: var(--gold-pale); }
+.footer-copy { font-family: var(--SM); font-size: 0.57rem; letter-spacing: 0.1em; color: var(--dim); }
+
+/* ================================================================
+   BACK TO TOP
+================================================================ */
+.back-to-top {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  width: 44px; height: 44px;
+  background: var(--bg-1); border: 1px solid var(--b1); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; opacity: 0; pointer-events: none; transition: all 0.25s ease;
+}
+.back-to-top span {
+  font-family: var(--CG); font-size: 1.1rem; font-weight: 700; font-style: italic;
+  background: linear-gradient(180deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.back-to-top.show { opacity: 1; pointer-events: all; }
+.back-to-top:hover { border-color: var(--gold); box-shadow: 0 0 20px rgba(201,146,26,0.32); transform: translateY(-2px); }
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 960px) {
+  nav { padding: 0.7rem 1.5rem; }
+  .nav-links { display: none; }
+  .wrap, .hero-inner { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .wrap { padding-top: 4rem; padding-bottom: 4rem; }
+  .hero-inner { grid-template-columns: 1fr; padding-top: 2rem; padding-bottom: 2rem; }
+  .about-grid, .contact-grid, .education-grid { grid-template-columns: 1fr; }
+  .about-left { position: static; }
+  .contact-grid { gap: 2.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 0.85rem; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ━━━━━━━━━━━━━━━━ LOADER ━━━━━━━━━━━━━━━━ -->
+<div id="loader">
+  <div class="loader-logo">SC</div>
+  <div class="loader-text">Loading Portfolio...</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ TICKER ━━━━━━━━━━━━━━━━ -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>忍</span>
+    <span>SC · SIDDHI</span><span>Software Engineer</span><span>Android Developer</span>
+    <span>Backend Developer</span><span>UI/UX Designer</span><span>MCA · 8.86 CPI</span>
+    <span>Firebase · Kotlin · Java · Python</span><span>Cybersecurity</span><span>Google Security Engineer</span>
+    <span>忍</span>
+    <span>SC · SIDDHI</span><span>Software Engineer</span><span>Android Developer</span>
+    <span>Backend Developer</span><span>UI/UX Designer</span><span>MCA · 8.86 CPI</span>
+    <span>Firebase · Kotlin · Java · Python</span><span>Cybersecurity</span><span>Google Security Engineer</span>
+  </div>
+</div>
+
+<!-- ━━━━━━━━━━━━━━━━ NAV ━━━━━━━━━━━━━━━━ -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div class="nav-logo-box"><span class="nav-logo-letters">SC</span></div>
+    <span class="nav-name">SC · <em>SIDDHI</em></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-inner">
+
+    <!-- LEFT TEXT COLUMN -->
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span class="hero-badge-text">⚡ Software Engineer · Android Developer · Backend Developer</span>
+      </div>
+
+      <h1 class="hero-name">
+        <span class="hero-name-fill">Siddhi</span>
+        <span class="hero-name-stroke">Chudasama</span>
+      </h1>
+
+      <p class="hero-role">Software Engineer &amp; Android Developer</p>
+
+      <div class="hero-typed-wrap">
+        <span id="typed-text"></span><span class="typed-cursor"></span>
+      </div>
+
+      <p class="hero-desc">
+        Software Engineer with 4+ years of combined experience in Android development, backend engineering, and UI/UX design, specializing in MVVM architecture, Java, Kotlin, and Python. Experienced in building AI-powered fraud detection systems, real-time REST API pipelines, and game design UI systems with polished HUDs and interactive menu flows.
+      </p>
+
+      <div class="hero-mission">
+        <span class="hero-mission-arrow">►</span>
+        <span class="hero-mission-text">Combining mobile application development with modern AI integration and product design — certified in Generative AI, Microsoft AI Agents, and AWS S3 Infrastructure.</span>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-number">8.86</div>
+          <div class="stat-label">MCA CPI</div>
+        </div>
+        <div>
+          <div class="stat-number">6+</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div>
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+      </div>
+
+      <div class="hero-kanji">
+        鼠 牛 寅 卯 辰 巳 午 未 申 酉 戌 亥<br>
+        子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ABOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="about">
+  <div class="wrap">
+    <div class="s-label">professional profile</div>
+    <div class="s-title">About Me</div>
+
+    <div class="about-grid">
+      <!-- LEFT — info panel (no photo, same as reference) -->
+      <div class="about-left">
+        <div class="about-name">Siddhi Chudasama</div>
+        <div class="about-role">Software Engineer · Android Developer · Backend Developer</div>
+        <ul class="info-table">
+          <li><span class="info-key">Location</span><span class="info-val">Gujarat, India</span></li>
+          <li><span class="info-key">Degree</span><span class="info-val">MCA — 2024–2026</span></li>
+          <li><span class="info-key">CPI</span><span class="info-val">8.86 CPI</span></li>
+          <li><span class="info-key">Cert</span><span class="info-val">Google Security Engineer</span></li>
+          <li><span class="info-key">Email</span><span class="info-val" style="font-size:0.8rem">siddhidchudasama@gmail.com</span></li>
+          <li><span class="info-key">Phone</span><span class="info-val">+91 94267 38466</span></li>
+          <li><span class="info-key">LinkedIn</span><span class="info-val"><a href="https://www.linkedin.com/in/siddhi-chudasama/" target="_blank" style="color:var(--gold-br)">siddhi-chudasama</a></span></li>
+        </ul>
+
+        <div class="skill-bars" style="margin-top:2.2rem">
+          <div class="s-label" style="margin-bottom:1rem">Core Skills</div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Android Development</span><span>90%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-w="90"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Java / Kotlin</span><span>88%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-w="88"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Backend / REST APIs</span><span>85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-w="85"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>UI/UX Design</span><span>85%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-w="85"></div></div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header"><span>Python / ML</span><span>80%</span></div>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-w="80"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — content -->
+      <div>
+        <div class="s-subhead">Professional Summary</div>
+        <p class="s-para">A <strong>Software Engineer</strong> with 4+ years of combined experience in Android development, backend engineering, and UI/UX design, specializing in <strong>MVVM architecture, Java, Kotlin, and Python</strong>. I bring a rare blend of engineering precision and design intuition — crafting apps that are as reliable as they are beautiful.</p>
+        <p class="s-para">Experienced in building <strong>AI-powered fraud detection systems, real-time REST API pipelines, and game design UI systems</strong> with polished HUDs and interactive menu flows. Certified in Generative AI, Microsoft AI Agents, and AWS S3 Infrastructure, combining mobile application development with modern AI integration and product design.</p>
+
+        <div class="s-subhead">🔥 Key Achievements</div>
+        <div class="s-box">
+          <h4>📱 Mobile Engineering Excellence</h4>
+          <p>Architected and shipped production Android applications using <strong>Java, Kotlin, and Firebase</strong> with real-time data synchronization and secure REST API pipelines. Migrated a legacy codebase to <strong>Clean MVVM Architecture</strong>, reducing onboarding time and improving testability.</p>
+        </div>
+        <div class="s-box">
+          <h4>🎨 Design-Driven Development</h4>
+          <p>Delivered end-to-end UX design for 5+ mobile and web applications in <strong>Figma</strong> — from user research through production handoff — and partnered closely with engineers to ensure pixel-accurate implementation.</p>
+        </div>
+
+        <div class="s-subhead">⚡ Continuous Learning</div>
+        <div class="s-box">
+          <h4>🎓 MCA — R.B. Institute, GTU</h4>
+          <p>Pursuing <strong>Master of Computer Application</strong> (2024–2026) with a CPI of 8.86, following a BCA at K.K. Shastri Government Science College, Gujarat University.</p>
+        </div>
+
+        <div class="s-subhead">🌀 Professional Vision</div>
+        <p class="s-para">To engineer mobile and backend experiences that users trust completely — secure by design, elegant in interface, and flawless in performance. To stand at the intersection of <strong>AI, backend engineering, and mobile development</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     SKILLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="s-label">technical expertise</div>
+    <div class="s-title">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">💻</span>
+        <div class="skill-card-title">Programming Languages</div>
+        <div class="skill-card-desc">Versatile across systems, scripting &amp; application-level languages.</div>
+        <div class="skill-tags"><span class="skill-tag">Java</span><span class="skill-tag">Kotlin</span><span class="skill-tag">Python</span><span class="skill-tag">C</span><span class="skill-tag">C++</span><span class="skill-tag">TypeScript</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML5</span><span class="skill-tag">CSS</span><span class="skill-tag">XML</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">📱</span>
+        <div class="skill-card-title">Android &amp; Mobile Development</div>
+        <div class="skill-card-desc">End-to-end Android apps with real-time backends &amp; secure APIs.</div>
+        <div class="skill-tags"><span class="skill-tag">Android SDK</span><span class="skill-tag">Firebase</span><span class="skill-tag">MVVM Architecture</span><span class="skill-tag">REST APIs</span><span class="skill-tag">Clean Architecture</span><span class="skill-tag">Node.js</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">🤖</span>
+        <div class="skill-card-title">AI / Machine Learning</div>
+        <div class="skill-card-desc">Applying ML to fraud detection and behavioural risk scoring.</div>
+        <div class="skill-tags"><span class="skill-tag">Machine Learning</span><span class="skill-tag">Anomaly Detection</span><span class="skill-tag">User Behaviour Analysis</span><span class="skill-tag">scikit-learn</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">🎨</span>
+        <div class="skill-card-title">Design &amp; UX</div>
+        <div class="skill-card-desc">Human-centered design from wireframes to high-fidelity prototypes.</div>
+        <div class="skill-tags"><span class="skill-tag">Figma</span><span class="skill-tag">Wireframing</span><span class="skill-tag">Prototyping</span><span class="skill-tag">Material Design 3</span><span class="skill-tag">3D Design</span><span class="skill-tag">GDD</span><span class="skill-tag">HUD Design</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">⚙️</span>
+        <div class="skill-card-title">Tools &amp; Practices</div>
+        <div class="skill-card-desc">Industry-standard practices for scalable, maintainable software.</div>
+        <div class="skill-tags"><span class="skill-tag">Git</span><span class="skill-tag">GitHub</span><span class="skill-tag">Agile</span><span class="skill-tag">Scrum</span><span class="skill-tag">System Design</span><span class="skill-tag">Cybersecurity</span><span class="skill-tag">AWS S3</span></div>
+      </div>
+      <div class="skill-card reveal">
+        <span class="skill-card-icon">🔐</span>
+        <div class="skill-card-title">Security &amp; Backend</div>
+        <div class="skill-card-desc">Secure workflows with robust authentication &amp; data validation.</div>
+        <div class="skill-tags"><span class="skill-tag">Firebase Auth</span><span class="skill-tag">Idempotency Handling</span><span class="skill-tag">Secure Algorithms</span><span class="skill-tag">Error Handling</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     EXPERIENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="s-label">work history</div>
+    <div class="s-title">Work Experience</div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="tl-date">Dec 2023 – Dec 2025</div>
+        <div class="tl-badge">Software Engineering</div>
+        <div class="tl-role">Software Engineer &amp; Android Developer</div>
+        <div class="tl-org">🏢 Self-Employed — Full-Stack Mobile &amp; Backend Development (Freelance/Contract)</div>
+        <div class="tl-card">
+          <ul class="tl-list">
+            <li>Architected and shipped <strong>production Android applications</strong> using Java, Kotlin, and Firebase with real-time data synchronization and secure REST API pipelines.</li>
+            <li>Migrated legacy codebase to <strong>Clean MVVM Architecture</strong>, reducing onboarding time for new engineers and improving overall testability of the codebase.</li>
+            <li>Collaborated in <strong>Agile/Scrum sprints</strong> from requirements gathering through release, consistently meeting delivery deadlines across cross-functional teams.</li>
+            <li>Led <strong>code reviews and authored technical documentation</strong>, enforcing best practices that improved overall code quality and maintainability.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="tl-date">Feb 2021 – Feb 2024</div>
+        <div class="tl-badge">UI/UX Design</div>
+        <div class="tl-role">UI/UX Designer</div>
+        <div class="tl-org">🎨 Self-Employed — Mobile &amp; Web Application Design (Freelance/Contract)</div>
+        <div class="tl-card">
+          <ul class="tl-list">
+            <li>Delivered <strong>end-to-end UX design for 5+ mobile and web applications</strong>, from user research through production handoff in Figma.</li>
+            <li>Conducted <strong>usability testing and accessibility audits</strong>, reducing user-reported friction and improving retention metrics.</li>
+            <li>Partnered closely with <strong>Android engineers</strong> to ensure pixel-accurate implementation of design specifications.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     PROJECTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="s-label">featured work</div>
+    <div class="s-title">Notable Projects</div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 01</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">Fraud Online Transaction Detection System</div>
+          <div class="project-subtitle">Java · Android · Firebase · Python · ML</div>
+          <p class="project-desc">Designed an AI-based fraud detection engine using Python and scikit-learn anomaly detection, exposed via REST API to the Android client. Implemented real-time push alerts, secure Firebase Authentication, and user behavioural analysis for risk scoring — reducing false-positive fraud flags through iterative model tuning.</p>
+          <div class="project-techs">
+            <span class="project-tech">Java</span><span class="project-tech">Android</span>
+            <span class="project-tech">Firebase</span><span class="project-tech">Python</span>
+            <span class="project-tech">Machine Learning</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">ML</div><div class="project-stat-label">Powered</div></div>
+          <div><div class="project-stat-num">RT</div><div class="project-stat-label">Alerts</div></div>
+          <div><div class="project-stat-num">Auth</div><div class="project-stat-label">Secured</div></div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 02</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">SmartChat</div>
+          <div class="project-subtitle">Java · Firebase · XML — Real-Time Messaging</div>
+          <p class="project-desc">Built a full-featured real-time chat application with secure end-to-end authentication (Firebase Auth) and Firestore-powered message synchronization. Integrated Firebase Cloud Storage for media handling and designed a responsive Material Design 3 UI across all screen sizes.</p>
+          <div class="project-techs">
+            <span class="project-tech">Java</span><span class="project-tech">Firebase</span>
+            <span class="project-tech">XML</span><span class="project-tech">Material Design 3</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">RT</div><div class="project-stat-label">Messaging</div></div>
+          <div><div class="project-stat-num">MD3</div><div class="project-stat-label">UI</div></div>
+          <div><div class="project-stat-num">E2E</div><div class="project-stat-label">Auth</div></div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 03</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">Idempotent Payment Gateway</div>
+          <div class="project-subtitle">TypeScript · Node.js — FinTech Backend</div>
+          <p class="project-desc">Built a secure FinTech backend API that prevents duplicate transactions and ensures crash-resilient payment processing. Implemented idempotency-key handling and safeguards for reliable, repeatable transaction processing under failure conditions.</p>
+          <div class="project-techs">
+            <span class="project-tech">TypeScript</span><span class="project-tech">Node.js</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">Idem</div><div class="project-stat-label">Keys</div></div>
+          <div><div class="project-stat-num">API</div><div class="project-stat-label">Backend</div></div>
+          <div><div class="project-stat-num">Safe</div><div class="project-stat-label">Failures</div></div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 04</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">AuraChat — AI Generative UI</div>
+          <div class="project-subtitle">HTML · CSS · JavaScript</div>
+          <p class="project-desc">Developed a modern web chat interface with dynamic, AI-driven layout changes that adapt in real time based on user prompts. Designed a responsive front-end architecture to support fluid, generative UI transitions without page reloads.</p>
+          <div class="project-techs">
+            <span class="project-tech">HTML</span><span class="project-tech">CSS</span>
+            <span class="project-tech">JavaScript</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">AI</div><div class="project-stat-label">Driven</div></div>
+          <div><div class="project-stat-num">RT</div><div class="project-stat-label">Layout</div></div>
+          <div><div class="project-stat-num">No</div><div class="project-stat-label">Reloads</div></div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 05</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">DevPulse</div>
+          <div class="project-subtitle">JavaScript — Engineering Analytics Dashboard</div>
+          <p class="project-desc">Built an interactive software engineering dashboard to track developer workflows, system uptime, and team analytics. Designed data visualizations surfacing real-time metrics to help engineering teams monitor productivity and reliability.</p>
+          <div class="project-techs">
+            <span class="project-tech">JavaScript</span><span class="project-tech">Data Viz</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">RT</div><div class="project-stat-label">Metrics</div></div>
+          <div><div class="project-stat-num">Team</div><div class="project-stat-label">Analytics</div></div>
+          <div><div class="project-stat-num">Up</div><div class="project-stat-label">Time</div></div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bar"></div>
+        <div class="project-body">
+          <div class="project-num">Project // 06</div>
+          <span class="project-status-done">✓ Completed</span>
+          <div class="project-title">Game Design &amp; UI Systems</div>
+          <div class="project-subtitle">HTML · CSS · Figma — GDD / Military Slot Command Center</div>
+          <p class="project-desc">Authored comprehensive Game Design Documents (GDDs) defining mechanics, flow, and visual direction for tactical game interfaces. Designed interactive menu flows and tactical dashboard HUDs, then built responsive HTML/CSS layouts from Figma designs for consistent UI behavior across screen sizes.</p>
+          <div class="project-techs">
+            <span class="project-tech">HTML</span><span class="project-tech">CSS</span>
+            <span class="project-tech">Figma</span><span class="project-tech">GDD</span>
+          </div>
+        </div>
+        <div class="project-footer">
+          <div><div class="project-stat-num">HUD</div><div class="project-stat-label">Design</div></div>
+          <div><div class="project-stat-num">GDD</div><div class="project-stat-label">Authored</div></div>
+          <div><div class="project-stat-num">UI</div><div class="project-stat-label">Flows</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     EDUCATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="education">
+  <div class="wrap">
+    <div class="s-label">academic background</div>
+    <div class="s-title">Education</div>
+    <div class="education-grid">
+      <div class="edu-card reveal" data-abbr="MCA">
+        <span class="edu-icon">🎓</span>
+        <div class="edu-degree">Master of Computer Application</div>
+        <div class="edu-institution">R.B. Institute, Gujarat Technological University (GTU)</div>
+        <div class="edu-location">📍 Gujarat | 2024 – 2026</div>
+        <div class="edu-badge edu-badge-progress">● In Progress</div>
+        <div class="edu-gpa-row">
+          <span class="edu-gpa-num">8.86</span>
+          <span class="edu-gpa-unit">CPI</span>
+        </div>
+        <div class="edu-project-box">
+          <strong>Focus Areas</strong>
+          <span>AI-powered fraud detection, backend engineering, and applied machine learning research</span>
+        </div>
+      </div>
+      <div class="edu-card reveal" data-abbr="BCA">
+        <span class="edu-icon">🏆</span>
+        <div class="edu-degree">Bachelor of Computer Application</div>
+        <div class="edu-institution">K.K. Shastri Government Science College, Gujarat University (GU)</div>
+        <div class="edu-location">📍 Gujarat | 2021 – 2024</div>
+        <div class="edu-badge edu-badge-done">⭐ Completed</div>
+        <div class="edu-gpa-row">
+          <span class="edu-gpa-num">7.25</span>
+          <span class="edu-gpa-unit">CGPA</span>
+        </div>
+        <div class="edu-project-box">
+          <strong>Capstone Project</strong>
+          <span>SmartChat — Real-time messaging Android application with Firebase integration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CERTIFICATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="certifications">
+  <div class="wrap">
+    <div class="s-label">certifications &amp; credentials</div>
+    <div class="s-title">Certifications &amp; Achievements</div>
+
+    <!-- ◆ CERTIFICATIONS -->
+    <div class="cert-group">
+      <div class="cert-group-heading">
+        <span class="cert-group-diamond">◆</span>
+        <span class="cert-group-title">Certifications</span>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🛡</div>
+          <div class="cert-name">Security Engineer</div>
+          <div class="cert-issuer-name">Google</div>
+          <div class="cert-issuer-sub">Cybersecurity Professional Certification</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🛠</div>
+          <div class="cert-name">IT Support Professional</div>
+          <div class="cert-issuer-name">Google</div>
+          <div class="cert-issuer-sub">Technical Support Certification</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">📈</div>
+          <div class="cert-name">Generate Reports with AI Research Agents</div>
+          <div class="cert-issuer-name">Microsoft</div>
+          <div class="cert-issuer-sub">AI Research Agent Workflows</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🤖</div>
+          <div class="cert-name">Gemini Certificate</div>
+          <div class="cert-issuer-name">Google</div>
+          <div class="cert-issuer-sub">Student &amp; Educator Program</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">☁️</div>
+          <div class="cert-name">S3 Basic Cloud Infrastructure</div>
+          <div class="cert-issuer-name">AWS</div>
+          <div class="cert-issuer-sub">AWS Cloud Fundamentals</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🧠</div>
+          <div class="cert-name">Introduction to Generative AI</div>
+          <div class="cert-issuer-name">Google Cloud</div>
+          <div class="cert-issuer-sub">Generative AI Fundamentals</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🔐</div>
+          <div class="cert-name">Cyber Job Simulation</div>
+          <div class="cert-issuer-name">Deloitte</div>
+          <div class="cert-issuer-sub">Virtual Experience Program</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">💼</div>
+          <div class="cert-name">Technology Job Simulation</div>
+          <div class="cert-issuer-name">Deloitte</div>
+          <div class="cert-issuer-sub">Virtual Experience Program</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">📊</div>
+          <div class="cert-name">Business Analysis &amp; Process Management</div>
+          <div class="cert-issuer-name">Certification</div>
+          <div class="cert-issuer-sub">Professional Development</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">📣</div>
+          <div class="cert-name">Google Ads Apps Certification</div>
+          <div class="cert-issuer-name">Google</div>
+          <div class="cert-issuer-sub">Apps Advertising</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🎯</div>
+          <div class="cert-name">AI-Powered Performance Ads Certification</div>
+          <div class="cert-issuer-name">Certification</div>
+          <div class="cert-issuer-sub">Performance Advertising</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ◆ MICROSOFT LEARN AI BADGES -->
+    <div class="cert-group">
+      <div class="cert-group-heading">
+        <span class="cert-group-diamond">◆</span>
+        <span class="cert-group-title">Microsoft Learn AI Badges</span>
+      </div>
+      <p class="cert-group-sub">Microsoft Learn · Azure AI Learning Path</p>
+      <div class="cert-grid">
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🧠</div>
+          <div class="cert-name">Generative AI</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Foundations of Generative AI</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🤖</div>
+          <div class="cert-name">AI Agents</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Intelligent Agent Systems</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🏭</div>
+          <div class="cert-name">Microsoft Foundry</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">AI Development Platform</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">☁️</div>
+          <div class="cert-name">Azure AI</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Azure AI Services</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">💬</div>
+          <div class="cert-name">Natural Language Processing</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">NLP &amp; Text Intelligence</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">👁</div>
+          <div class="cert-name">Computer Vision</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Image &amp; Visual AI</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">🎙</div>
+          <div class="cert-name">Speech AI</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Voice &amp; Audio Intelligence</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-icon-box">📄</div>
+          <div class="cert-name">Information Extraction</div>
+          <div class="cert-issuer-name">Microsoft Learn</div>
+          <div class="cert-issuer-sub">Document Intelligence &amp; More</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     CONTACT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="wrap">
+    <div class="s-label">get in touch</div>
+    <div class="s-title">Make Contact</div>
+    <div class="contact-grid">
+      <div>
+        <div class="s-subhead" style="margin-top:0">Open for Opportunities</div>
+        <p class="contact-desc">Whether you're looking to hire, collaborate on an Android, backend, or AI-driven project, or simply want to discuss technology — I'm always open to meaningful conversations. Send me a message and I'll respond within 24 hours.</p>
+        <ul class="contact-links-list">
+          <li class="contact-link" onclick="window.location.href='mailto:siddhidchudasama@gmail.com'">
+            <div class="contact-link-icon">📧</div><span class="contact-link-text">siddhidchudasama@gmail.com</span>
+          </li>
+          <li class="contact-link" onclick="window.location.href='tel:+919426738466'">
+            <div class="contact-link-icon">📞</div><span class="contact-link-text">+91 94267 38466</span>
+          </li>
+          <li class="contact-link">
+            <div class="contact-link-icon">📍</div><span class="contact-link-text">Gujarat, India</span>
+          </li>
+          <li class="contact-link" onclick="window.open('https://www.linkedin.com/in/siddhi-chudasama/','_blank')">
+            <div class="contact-link-icon">💼</div><span class="contact-link-text">LinkedIn — siddhi-chudasama</span>
+          </li>
+          <li class="contact-link" onclick="window.open('https://github.com','_blank')">
+            <div class="contact-link-icon">🐙</div><span class="contact-link-text">GitHub Profile</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-input" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="email@example.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-input" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Location / Company</label>
+              <input type="text" class="form-input" placeholder="Your company">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message / Mission Brief</label>
+            <textarea class="form-textarea" placeholder="Tell me about your project or opportunity..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">✉️ Send Message</button>
+          <div class="form-success" id="formSuccess">
+            ✅ Message sent successfully! Siddhi will get back to you within 24 hours.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ━━━━━━━━━━━━━━━━ FOOTER ━━━━━━━━━━━━━━━━ -->
+<footer>
+  <div class="footer-name">Siddhi Chudasama</div>
+  <div class="footer-links">
+    <a href="#hero">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#certifications">Certifications</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p class="footer-copy">Designed &amp; Developed with 🥇 by Siddhi Chudasama · © 2025</p>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <span>▲</span>
+</button>
+
+<script>
+// ── Loader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('gone'), 2200);
+});
+
+// ── Nav scroll + back-to-top visibility
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  document.getElementById('nav').classList.toggle('scrolled', y > 60);
+  document.getElementById('backToTop').classList.toggle('show', y > 400);
+});
+
+// ── Typed text effect
+const phrases = [
+  'Building Secure Android Applications',
+  'Engineering Backend REST API Pipelines',
+  'Designing Beautiful User Interfaces',
+  'Researching AI Fraud Detection Systems',
+  'Crafting Game Design UI Systems'
+];
+let phraseIndex = 0, charIndex = 0, isDeleting = false;
+const typedEl = document.getElementById('typed-text');
+
+function type() {
+  const current = phrases[phraseIndex];
+  if (!isDeleting) {
+    typedEl.textContent = current.slice(0, ++charIndex);
+    if (charIndex === current.length) { isDeleting = true; setTimeout(type, 1800); return; }
+  } else {
+    typedEl.textContent = current.slice(0, --charIndex);
+    if (charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
+  }
+  setTimeout(type, isDeleting ? 50 : 88);
+}
+setTimeout(type, 2500);
+
+// ── Skill bar animation on scroll
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.width = entry.target.dataset.w + '%';
+      barObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-bar-fill').forEach(el => barObserver.observe(el));
+
+// ── Reveal on scroll
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 70);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── Contact form
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  setTimeout(() => {
+    document.getElementById('formSuccess').style.display = 'block';
+    btn.textContent = '✉️ Send Message'; btn.disabled = false;
+    e.target.reset();
+  }, 1400);
+}
+</script>
+</body>
+</html>
